@@ -2,102 +2,83 @@
 
 A modern, high-performance, and attractive personal portfolio website engineered specifically for **Kasun Pradeep Marasinghe (DevOps & Cloud Infrastructure Engineer)**.
 
-Built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and production-ready **Docker containerization**.
+Built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and production-ready **Docker containerization & Cloudflare Pages hosting**.
 
 ---
 
-## 🌟 Key Features
+## ⚡ Hosting for 100% Free on Cloudflare Pages
 
-- **DevOps Aesthetic & Dark Cyber Theme:** Glassmorphism panels, glow highlights, neon accents, and responsive layout.
-- **Interactive Shell Terminal:** Visitors and recruiters can run interactive commands like `help`, `whoami`, `skills`, `certs`, `experience`, `projects`, `contact`, and `sudo hire-kasun`.
-- **Comprehensive CV Showcase:**
-  - **Hero & Live Telemetry:** Highlighted AWS SAA-C03 & CKA credentials, uptime metrics, and direct CTAs.
-  - **Skill Matrix:** Filterable by Cloud (AWS, Linode), Containers (Kubernetes, Docker), CI/CD (Jenkins, GitLab CI, Terraform), and Monitoring (Prometheus, Grafana, CloudWatch).
-  - **Verified Certifications:** CKA, AWS Certified Solutions Architect, Aviatrix Multicloud Network Associate, Cisco Linux, etc.
-  - **Career Experience Timeline:** Detailed roles at Nimbus Venture, Web Lankan, and hSenid Mobile Solutions.
-  - **Real-World Architecture Projects:** High-availability AWS ECS setups, multi-branch CI/CD pipelines, full-stack observability.
-  - **Academic Background & References:** BSc (Hons) Wrexham University UK, NDT Moratuwa, and verified senior engineering references.
-  - **Interactive Contact:** Quick email copy, direct mailto messaging, and social links.
-- **Production-Ready Docker Setup:** Multi-stage Docker build utilizing Next.js `standalone` mode producing an ultra-lightweight image (~100MB) with non-root security standards.
+Cloudflare Pages provides:
+- **Unlimited bandwidth & global CDN caching** (100% Free)
+- **Automatic SSL certificates** (`HTTPS`)
+- **Zero server costs**
+- **Custom domains** (e.g. `kasun.dev` or free `kasun-portfolio.pages.dev`)
 
 ---
 
-## 🛠️ Tech Stack
+### Option 1: Automated Deployment via GitHub (Recommended & Easiest)
 
-- **Framework:** Next.js 14 (App Router)
-- **Language:** TypeScript
-- **Styling:** Tailwind CSS + PostCSS + Custom Cyber-Glass CSS
-- **Icons:** Lucide React
-- **Containerization:** Docker (Multi-stage Node 20 Alpine) + Docker Compose
-
----
-
-## 🏃 Running Locally
-
-### Prerequisites
-- Node.js 18+ or 20+
-- npm 9+ or pnpm / yarn
-
-### 1. Install Dependencies
+#### Step 1: Create a GitHub Repository & Push
+1. Go to [github.com/new](https://github.com/new) and create a new repository named `kasun-portfolio` (Public or Private).
+2. Run these commands in your project terminal:
 ```bash
-npm install
+cd /home/kasun/.gemini/antigravity/scratch/kasun-devops-portfolio
+git remote add origin https://github.com/<YOUR_GITHUB_USERNAME>/kasun-portfolio.git
+git push -u origin main
 ```
 
-### 2. Run the Development Server
-```bash
-npm run dev
-```
+#### Step 2: Connect to Cloudflare Pages
+1. Log in to [Cloudflare Dashboard](https://dash.cloudflare.com/).
+2. On the left sidebar, click **Compute (Workers & Pages)** ➔ **Create application** ➔ select **Pages**.
+3. Click **Connect to Git** and select your `kasun-portfolio` repository.
+4. Set the **Build Settings**:
+   - **Framework preset:** `Next.js (Static Export)`
+   - **Build command:** `npm run build`
+   - **Build output directory:** `out`
+5. Click **Save and Deploy**!
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to view your portfolio.
+🎉 Your portfolio is now live globally with a free `.pages.dev` URL! Every time you `git push`, Cloudflare will auto-build and deploy your site!
 
-### 3. Build for Production Locally
+---
+
+### Option 2: Direct Command Line Deploy via Wrangler CLI
+
+If you want to deploy directly from your machine without GitHub:
+
+1. **Build the static site:**
 ```bash
 npm run build
-npm start
 ```
+*(This generates the production static site inside the `out/` folder)*
+
+2. **Deploy to Cloudflare Pages:**
+```bash
+npx wrangler pages deploy out --project-name=kasun-devops-portfolio
+```
+*(Wrangler will open a browser window to authenticate with your Cloudflare account, and instantly upload your website)*
 
 ---
 
 ## 🐳 Docker Deployment (Containerization)
 
-This project is fully dockerized with a production-optimized multi-stage Dockerfile.
+### Option 1: Docker Compose (Single Command)
+```bash
+docker compose up -d --build
+```
+Open [http://localhost:3000](http://localhost:3000)
 
-### Option 1: Docker Build & Run (Single Container)
-
-1. **Build the Docker Image:**
+### Option 2: Docker CLI
 ```bash
 docker build -t kasun-devops-portfolio .
-```
-
-2. **Run the Container:**
-```bash
 docker run -d -p 3000:3000 --name kasun-portfolio kasun-devops-portfolio
-```
-
-Visit [http://localhost:3000](http://localhost:3000) to view the running app inside Docker!
-
-To stop the container:
-```bash
-docker stop kasun-portfolio
 ```
 
 ---
 
-### Option 2: Docker Compose (Recommended)
-
-1. **Start the application in background:**
+## 🏃 Running Locally in Development Mode
 ```bash
-docker compose up -d --build
-```
-
-2. **View logs:**
-```bash
-docker compose logs -f
-```
-
-3. **Stop the stack:**
-```bash
-docker compose down
+npm install
+npm run dev
 ```
 
 ---
@@ -105,20 +86,9 @@ docker compose down
 ## ✏️ How to Customize Your Information
 
 All your personal details, work experience, certifications, and skills are centralized in a single file:
-
 ```
 src/data/portfolioData.ts
 ```
-
-Simply update this file to modify any details, add new certifications, or feature new DevOps projects without touching the UI components!
-
----
-
-## ☁️ Production Deployment Options
-
-1. **AWS ECS / EKS:** Deploy the lightweight Docker container onto AWS ECS Fargate or Kubernetes with ALB.
-2. **VPS (Ubuntu / RedHat) via Docker:** Run `docker compose up -d` behind Nginx or Caddy with automated Let's Encrypt SSL.
-3. **Vercel / Cloudflare Pages:** Connect your GitHub repository for instant serverless deployment.
 
 ---
 
