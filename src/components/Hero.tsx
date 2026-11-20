@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Cloud, 
   Terminal as TerminalIcon, 
@@ -13,13 +13,18 @@ import {
   Linkedin, 
   ExternalLink,
   Server,
-  Activity
+  Activity,
+  Layers,
+  Globe
 } from 'lucide-react';
 import { portfolioData } from '../data/portfolioData';
 import { CKABadgeLogo, AWSSolutionsArchitectBadge } from './Icons';
+import ThreeDCard from './ThreeDCard';
+import ThreeDCloudScene from './ThreeDCloudScene';
 
 export default function Hero() {
   const { personal, stats } = portfolioData;
+  const [activeRightTab, setActiveRightTab] = useState<'3d' | 'telemetry'>('3d');
 
   return (
     <section id="about" className="pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden relative">
@@ -59,23 +64,27 @@ export default function Hero() {
               {personal.bio}
             </p>
 
-            {/* Official Certification Highlights with authentic logos */}
+            {/* Official Certification Highlights with 3D Tilt Effect */}
             <div className="pt-1 flex flex-wrap items-center gap-3">
-              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-amber-500/40 shadow-lg shadow-amber-500/10">
-                <AWSSolutionsArchitectBadge className="w-9 h-9" />
-                <div className="font-mono text-xs">
-                  <span className="text-amber-400 font-bold block">AWS Certified</span>
-                  <span className="text-slate-300 text-[11px]">Solutions Architect – Associate</span>
+              <ThreeDCard depth={20} className="w-auto">
+                <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-amber-500/40 shadow-xl shadow-amber-500/10 hover:border-amber-400 transition-colors">
+                  <AWSSolutionsArchitectBadge className="w-10 h-10" />
+                  <div className="font-mono text-xs">
+                    <span className="text-amber-400 font-bold block">AWS Certified</span>
+                    <span className="text-slate-200 text-[11px]">Solutions Architect (SAA-C03)</span>
+                  </div>
                 </div>
-              </div>
+              </ThreeDCard>
 
-              <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-blue-500/40 shadow-lg shadow-blue-500/10">
-                <CKABadgeLogo className="w-9 h-9" />
-                <div className="font-mono text-xs">
-                  <span className="text-blue-400 font-bold block">CKA Certified</span>
-                  <span className="text-slate-300 text-[11px]">Kubernetes Administrator</span>
+              <ThreeDCard depth={20} className="w-auto">
+                <div className="flex items-center gap-3 px-4 py-2.5 rounded-xl bg-slate-900/90 border border-blue-500/40 shadow-xl shadow-blue-500/10 hover:border-blue-400 transition-colors">
+                  <CKABadgeLogo className="w-10 h-10" />
+                  <div className="font-mono text-xs">
+                    <span className="text-blue-400 font-bold block">CKA Certified</span>
+                    <span className="text-slate-200 text-[11px]">Kubernetes Administrator</span>
+                  </div>
                 </div>
-              </div>
+              </ThreeDCard>
             </div>
 
             {/* Quick Details Badges */}
@@ -122,87 +131,122 @@ export default function Hero() {
 
           </div>
 
-          {/* Right Column: Interactive Infrastructure Quick Card */}
-          <div className="lg:col-span-5">
-            <div className="relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/95 border border-slate-800 shadow-2xl p-6 backdrop-blur-xl">
-              
-              {/* Terminal Title Bar */}
-              <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
-                  <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-                  <span className="ml-2 text-xs font-mono text-slate-400">aws-prod-cluster: telemetry</span>
-                </div>
-                <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
-                  LIVE STATUS
-                </span>
-              </div>
-
-              {/* Server / Cloud Stats Matrix */}
-              <div className="space-y-3 font-mono text-xs">
-                
-                <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <Cloud className="w-4 h-4 text-cyan-400" />
-                    <span>Cloud Architecture</span>
-                  </div>
-                  <span className="text-cyan-400 font-semibold">AWS + Linode Hybrid</span>
-                </div>
-
-                <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <Server className="w-4 h-4 text-indigo-400" />
-                    <span>Container Orchestration</span>
-                  </div>
-                  <span className="text-emerald-400 font-semibold">Kubernetes (CKA)</span>
-                </div>
-
-                <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <Activity className="w-4 h-4 text-emerald-400" />
-                    <span>Telemetry &amp; Monitoring</span>
-                  </div>
-                  <span className="text-amber-400 font-semibold">Prometheus + Grafana</span>
-                </div>
-
-                <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
-                  <div className="flex items-center gap-2 text-slate-300">
-                    <Award className="w-4 h-4 text-yellow-400" />
-                    <span>Key Certifications</span>
-                  </div>
-                  <span className="text-white font-semibold">SAA-C03 • CKA • Aviatrix</span>
-                </div>
-
-              </div>
-
-              {/* Simulated Shell Stream */}
-              <div className="mt-4 p-3 rounded-lg bg-black/60 border border-slate-800/80 font-mono text-[11px] text-slate-400 space-y-1">
-                <p className="text-emerald-400">$ kubectl get nodes -o wide</p>
-                <p className="text-slate-300">STATUS: 5/5 Ready | Roles: control-plane, worker</p>
-                <p className="text-cyan-400">$ jenkins-pipeline --run --env=production</p>
-                <p className="text-slate-300">Build #148: SUCCESS | Automated tests passed [0m 42s]</p>
-              </div>
-
+          {/* Right Column: Interactive 3D Mesh & Infrastructure Telemetry with Switcher */}
+          <div className="lg:col-span-5 space-y-3">
+            
+            {/* View Switcher Pill */}
+            <div className="flex items-center justify-end gap-1.5 font-mono text-xs">
+              <button
+                onClick={() => setActiveRightTab('3d')}
+                className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-all ${
+                  activeRightTab === '3d'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                    : 'text-slate-400 hover:text-white bg-slate-900/60 border border-slate-800'
+                }`}
+              >
+                <Globe className="w-3.5 h-3.5 text-cyan-400" />
+                <span>3D Infrastructure Mesh</span>
+              </button>
+              <button
+                onClick={() => setActiveRightTab('telemetry')}
+                className={`px-3 py-1 rounded-lg flex items-center gap-1.5 transition-all ${
+                  activeRightTab === 'telemetry'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold'
+                    : 'text-slate-400 hover:text-white bg-slate-900/60 border border-slate-800'
+                }`}
+              >
+                <Server className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Cluster Status Card</span>
+              </button>
             </div>
+
+            {/* View 1: 3D Cloud Mesh */}
+            {activeRightTab === '3d' ? (
+              <ThreeDCloudScene />
+            ) : (
+              /* View 2: Telemetry Card with 3D Tilt */
+              <ThreeDCard depth={15}>
+                <div className="relative rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/95 border border-slate-800 shadow-2xl p-6 backdrop-blur-xl">
+                  
+                  {/* Terminal Title Bar */}
+                  <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80">
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-amber-500/80"></div>
+                      <div className="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+                      <span className="ml-2 text-xs font-mono text-slate-400">aws-prod-cluster: telemetry</span>
+                    </div>
+                    <span className="text-[11px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/50">
+                      LIVE STATUS
+                    </span>
+                  </div>
+
+                  {/* Server / Cloud Stats Matrix */}
+                  <div className="space-y-3 font-mono text-xs">
+                    <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Cloud className="w-4 h-4 text-cyan-400" />
+                        <span>Cloud Architecture</span>
+                      </div>
+                      <span className="text-cyan-400 font-semibold">AWS + Linode Hybrid</span>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Server className="w-4 h-4 text-indigo-400" />
+                        <span>Container Orchestration</span>
+                      </div>
+                      <span className="text-emerald-400 font-semibold">Kubernetes (CKA)</span>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Activity className="w-4 h-4 text-emerald-400" />
+                        <span>Telemetry &amp; Monitoring</span>
+                      </div>
+                      <span className="text-amber-400 font-semibold">Prometheus + Grafana</span>
+                    </div>
+
+                    <div className="p-3 rounded-lg bg-slate-900/70 border border-slate-800 flex items-center justify-between">
+                      <div className="flex items-center gap-2 text-slate-300">
+                        <Award className="w-4 h-4 text-yellow-400" />
+                        <span>Key Certifications</span>
+                      </div>
+                      <span className="text-white font-semibold">SAA-C03 • CKA • Aviatrix</span>
+                    </div>
+                  </div>
+
+                  {/* Simulated Shell Stream */}
+                  <div className="mt-4 p-3 rounded-lg bg-black/60 border border-slate-800/80 font-mono text-[11px] text-slate-400 space-y-1">
+                    <p className="text-emerald-400">$ kubectl get nodes -o wide</p>
+                    <p className="text-slate-300">STATUS: 5/5 Ready | Roles: control-plane, worker</p>
+                    <p className="text-cyan-400">$ jenkins-pipeline --run --env=production</p>
+                    <p className="text-slate-300">Build #148: SUCCESS | Automated tests passed [0m 42s]</p>
+                  </div>
+
+                </div>
+              </ThreeDCard>
+            )}
+
           </div>
 
         </div>
 
-        {/* Global Statistics Counter Bar */}
+        {/* Global Statistics Counter Bar with 3D Tilt */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
           {stats.map((stat, i) => (
-            <div 
-              key={i} 
-              className="p-5 rounded-xl bg-slate-900/50 border border-slate-800/80 hover:border-cyan-500/40 transition-colors backdrop-blur-sm group"
-            >
-              <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono group-hover:text-cyan-400 transition-colors">
-                {stat.value}
+            <ThreeDCard key={i} depth={12}>
+              <div 
+                className="p-5 rounded-xl bg-slate-900/60 border border-slate-800/80 hover:border-cyan-500/40 transition-colors backdrop-blur-sm group h-full shadow-lg"
+              >
+                <div className="text-2xl sm:text-3xl font-extrabold text-white font-mono group-hover:text-cyan-400 transition-colors">
+                  {stat.value}
+                </div>
+                <div className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
+                  {stat.label}
+                </div>
               </div>
-              <div className="text-xs sm:text-sm text-slate-400 mt-1 font-medium">
-                {stat.label}
-              </div>
-            </div>
+            </ThreeDCard>
           ))}
         </div>
 

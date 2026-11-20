@@ -10,22 +10,23 @@ import {
   AviatrixBadge, 
   CiscoLinuxBadge 
 } from './Icons';
+import ThreeDCard from './ThreeDCard';
 
 export default function Certifications() {
   const [filter, setFilter] = useState<'all' | 'featured' | 'cloud' | 'k8s' | 'linux'>('all');
 
   const getOfficialBadge = (title: string) => {
     if (title.includes('Kubernetes Administrator') || title.includes('CKA')) {
-      return <CKABadgeLogo className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(50,108,229,0.5)]" />;
+      return <CKABadgeLogo className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(50,108,229,0.6)]" />;
     }
     if (title.includes('Solutions Architect')) {
-      return <AWSSolutionsArchitectBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(255,153,0,0.5)]" />;
+      return <AWSSolutionsArchitectBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255,153,0,0.6)]" />;
     }
     if (title.includes('Cloud Practitioner')) {
       return <AWSCloudPractitionerBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(255,153,0,0.4)]" />;
     }
     if (title.includes('Aviatrix') || title.includes('Multicloud Network')) {
-      return <AviatrixBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(255,85,0,0.5)]" />;
+      return <AviatrixBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_15px_rgba(255,85,0,0.5)]" />;
     }
     if (title.includes('Cisco') || title.includes('NDG Linux')) {
       return <CiscoLinuxBadge className="w-14 h-14 shrink-0 hover:scale-110 transition-transform duration-300 drop-shadow-[0_0_12px_rgba(4,150,255,0.4)]" />;
@@ -84,50 +85,51 @@ export default function Certifications() {
           ))}
         </div>
 
-        {/* Cards Grid */}
+        {/* Cards Grid with 3D Tilt */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCerts.map((cert, index) => (
-            <div
-              key={index}
-              className={`relative p-6 rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border transition-all duration-300 backdrop-blur-sm group hover:-translate-y-1.5 shadow-xl flex flex-col justify-between ${
-                cert.featured
-                  ? 'border-cyan-500/40 shadow-cyan-500/5 hover:border-cyan-400'
-                  : 'border-slate-800/80 hover:border-slate-700'
-              }`}
-            >
-              {cert.featured && (
-                <div className="absolute top-4 right-4 flex items-center gap-1 text-[10px] font-mono font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-full">
-                  <Sparkles className="w-3 h-3 text-amber-400" />
-                  <span>TOP CREDENTIAL</span>
-                </div>
-              )}
+            <ThreeDCard key={index} depth={18}>
+              <div
+                className={`relative p-6 rounded-2xl bg-gradient-to-b from-slate-900/90 to-slate-950/90 border transition-all duration-300 backdrop-blur-sm group shadow-xl flex flex-col justify-between h-full ${
+                  cert.featured
+                    ? 'border-cyan-500/40 shadow-cyan-500/10 hover:border-cyan-400'
+                    : 'border-slate-800/80 hover:border-slate-700'
+                }`}
+              >
+                {cert.featured && (
+                  <div className="absolute top-4 right-4 flex items-center gap-1 text-[10px] font-mono font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2 py-0.5 rounded-full z-20">
+                    <Sparkles className="w-3 h-3 text-amber-400" />
+                    <span>TOP CREDENTIAL</span>
+                  </div>
+                )}
 
-              <div>
-                <div className="flex items-start gap-4 mb-4">
-                  {getOfficialBadge(cert.title)}
-                  <div>
-                    <h3 className="font-bold text-white text-base leading-snug group-hover:text-cyan-300 transition-colors">
-                      {cert.title}
-                    </h3>
-                    <p className="text-xs text-slate-400 mt-1 font-mono">
-                      {cert.issuer}
-                    </p>
+                <div>
+                  <div className="flex items-start gap-4 mb-4">
+                    {getOfficialBadge(cert.title)}
+                    <div>
+                      <h3 className="font-bold text-white text-base leading-snug group-hover:text-cyan-300 transition-colors">
+                        {cert.title}
+                      </h3>
+                      <p className="text-xs text-slate-400 mt-1 font-mono">
+                        {cert.issuer}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-                <span className="flex items-center gap-1.5 text-emerald-400">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
-                  <span>Verified Credential</span>
-                </span>
-                {cert.validity && (
-                  <span className="text-slate-400 bg-slate-800/60 px-2.5 py-0.5 rounded">
-                    {cert.validity}
+                <div className="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                  <span className="flex items-center gap-1.5 text-emerald-400">
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Verified Credential</span>
                   </span>
-                )}
+                  {cert.validity && (
+                    <span className="text-slate-400 bg-slate-800/60 px-2.5 py-0.5 rounded">
+                      {cert.validity}
+                    </span>
+                  )}
+                </div>
               </div>
-            </div>
+            </ThreeDCard>
           ))}
         </div>
 
